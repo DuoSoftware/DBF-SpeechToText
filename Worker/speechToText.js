@@ -4,15 +4,15 @@ const fs = require('fs');
 
 module.exports.speechToTextConversionURI = async function(req, res) {
     // This converts the audio of the file in given URI
-    var company = parseInt(req.user.company);
-    var tenant = parseInt(req.user.tenant);
+    // var company = parseInt(req.user.company);
+    // var tenant = parseInt(req.user.tenant);
 
-    let textData = await speechToTextConversionsURI(req.body.URI, req.body.key, req.body.languageCode).catch(function(textError) {
+    let textData = await speechToTextConversionsURI(req.URI, req.key, req.languageCode).catch(function(textError) {
         console.log(textError);
-        res.end(textError);
+        res(textError);
         return;
     });
-    res.end(textData);
+    res(textData);
 }
 
 let speechToTextConversionsURI = (URI, key, languageCode) => {
@@ -55,8 +55,15 @@ let speechToTextConversionsURI = (URI, key, languageCode) => {
                             let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text has failed", false, undefined);
                             reject(jsonString);
                         } else {
-                            let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text is successful", true, decodedData.results[0].alternatives[0].transcript);
-                            resolve(jsonString);
+                            var json = {
+                                'confidence': decodedData.results[0].alternatives[0].confidence,
+                                'CustomMessage': "Speech to text is successful",
+                                'IsSuccess': true,
+                                'Result': decodedData.results[0].alternatives[0].transcript
+                            };
+                            resolve(JSON.stringify(json));
+                            // let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text is successful", true, decodedData.results[0].alternatives[0].transcript);
+                            // resolve(jsonString);
                         }
                     } else {
                         let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text did not return any data", false, undefined);
@@ -75,15 +82,15 @@ let speechToTextConversionsURI = (URI, key, languageCode) => {
 
 module.exports.speechToTextConversionBase64 = async function(req, res) {
     // This converts the audio of the file data sent as base64 encoded data
-    var company = parseInt(req.user.company);
-    var tenant = parseInt(req.user.tenant);
+    // var company = parseInt(req.user.company);
+    // var tenant = parseInt(req.user.tenant);
 
-    let textData = await speechToTextConversionsBase64(req.body.audioData, req.body.key, req.body.languageCode).catch(function(textError) {
+    let textData = await speechToTextConversionsBase64(req.audioData, req.key, req.languageCode).catch(function(textError) {
         console.log(textError);
-        res.end(textError);
+        res(textError);
         return;
     });
-    res.end(textData);
+    res(textData);
 }
 
 let speechToTextConversionsBase64 = (audioData, key, languageCode) => {
@@ -124,8 +131,15 @@ let speechToTextConversionsBase64 = (audioData, key, languageCode) => {
                             let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text has failed", false, undefined);
                             reject(jsonString);
                         } else {
-                            let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text is successful", true, decodedData.results[0].alternatives[0].transcript);
-                            resolve(jsonString);
+                            var json = {
+                                'confidence': decodedData.results[0].alternatives[0].confidence,
+                                'CustomMessage': "Speech to text is successful",
+                                'IsSuccess': true,
+                                'Result': decodedData.results[0].alternatives[0].transcript
+                            };
+                            resolve(JSON.stringify(json));
+                            // let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text is successful", true, decodedData.results[0].alternatives[0].transcript);
+                            // resolve(jsonString);
                         }
                     } else {
                         let jsonString = messageFormatter.FormatMessage(undefined, "Speech to text did not return any data", false, undefined);
@@ -144,15 +158,15 @@ let speechToTextConversionsBase64 = (audioData, key, languageCode) => {
 
 module.exports.textToSpeechConversion = async function(req, res) {
     // This converts the audio of the file data sent as base64 encoded data
-    var company = parseInt(req.user.company);
-    var tenant = parseInt(req.user.tenant);
+    // var company = parseInt(req.user.company);
+    // var tenant = parseInt(req.user.tenant);
 
-    let textData = await textToSpeechConversions(req.body.text, req.body.key, req.body.languageCode).catch(function(textError) {
+    let textData = await textToSpeechConversions(req.text, req.key, req.languageCode).catch(function(textError) {
         console.log(textError);
-        res.end(textError);
+        res(textError);
         return;
     });
-    res.end(textData);
+    res(textData);
 }
 
 let textToSpeechConversions = (text, key, languageCode) => {
@@ -197,12 +211,19 @@ let textToSpeechConversions = (text, key, languageCode) => {
                             let jsonString = messageFormatter.FormatMessage(undefined, "Text to speech has failed", false, undefined);
                             reject(jsonString);
                         } else {
-                            fs.writeFileSync("out.mp3", decodedData.audioContent, 'base64', function(err) {
-                                console.log(err);
-                            });
+                            // fs.writeFileSync("out.mp3", decodedData.audioContent, 'base64', function(err) {
+                            //     console.log(err);
+                            // });
 
-                            let jsonString = messageFormatter.FormatMessage(undefined, "Text to speech is successful", true, decodedData.audioContent);
-                            resolve(jsonString);
+                            var json = {
+                                'CustomMessage': "Text to speech is successful",
+                                'IsSuccess': true,
+                                'Result': decodedData.audioContent
+                            };
+                            resolve(JSON.stringify(json));
+
+                            // let jsonString = messageFormatter.FormatMessage(undefined, "Text to speech is successful", true, decodedData.audioContent);
+                            // resolve(jsonString);
                         }
 
                     } else {
