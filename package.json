@@ -1,0 +1,28 @@
+{
+  "name": "dbf-speechtotext",
+  "version": "1.0.1",
+  "description": "",
+  "main": "MongoConnection.js",
+  "dependencies": {
+    "config": "^1.31.0",
+    "dvp-common-lite": "^1.0.1",
+    "request": "^2.88.0",
+    "restify": "^7.7.0",
+    "restify-cors-middleware": "^1.1.1",
+    "restify-jwt": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DuoSoftware/DBF-SpeechToText.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DuoSoftware/DBF-SpeechToText/issues"
+  },
+  "homepage": "https://github.com/DuoSoftware/DBF-SpeechToText#readme"
+}
