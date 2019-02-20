@@ -39,7 +39,7 @@ let speechToTextConversionsURI = (URI, key, languageCode) => {
             url: uri,
             body: myJSON
         }, function(_error, _response) {
-            console.log(_response);
+            // console.log(_response);
             try {
                 if (_error) {
                     console.log(_error);
@@ -195,8 +195,8 @@ let textToSpeechConversions = (text, key, languageCode) => {
             url: uri,
             body: myJSON
         }, function(_error, _response) {
-            console.log(_error);
-            console.log(_response);
+            // console.log(_error);
+            // console.log(_response);
             try {
                 if (_error) {
                     console.log(_error);
