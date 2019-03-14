@@ -3,18 +3,18 @@ const request = require('request');
 const fs = require('fs');
 
 
-module.exports.GetLanguages = async function (req, res) {
+module.exports.GetLanguages = async function (key) {
     // This gives the list of languages supported
 
-    let resultData = await getLanguages(req.key).catch(function (error) {
+    let resultData = await GetLanguages(key).catch(function (error) {
         console.log(error);
         res(error);
         return;
     });
-    res(resultData);
+    return resultData;
 }
 
-let getLanguages = (key) => {
+let GetLanguages = (key) => {
 
     console.log("GetLanguages Internal method ");
 
@@ -58,18 +58,18 @@ let getLanguages = (key) => {
 
 
 
-module.exports.DetectLanguage = async function (req, res) {
+module.exports.DetectLanguage = async function (key, text) {
     // This detects the language of a given text
 
-    let resultLanguage = await detectLanguage(req.key, req.text).catch(function (error) {
+    let resultLanguage = await DetectLanguage(key, text).catch(function (error) {
         console.log(error);
         res(error);
         return;
     });
-    res(resultLanguage);
+    return resultLanguage;
 }
 
-let detectLanguage = (key, text) => {
+let DetectLanguage = (key, text) => {
 
     console.log("DetectLanguage Internal method ");
 
@@ -118,18 +118,18 @@ let detectLanguage = (key, text) => {
 }
 
 
-module.exports.Translate = async function (req, res) {
+module.exports.Translate = async function (key, text, targetlanguage) {
     // This translates the given text into the given language
 
-    let result = await translate(req.key, req.text, req.targetlanguage).catch(function (error) {
+    let result = await Translate(key, text, targetlanguage).catch(function (error) {
         console.log(error);
         res(error);
         return;
     });
-    res(result);
+    return result;
 }
 
-let translate = (key, text, targetlanguage) => {
+let Translate = (key, text, targetlanguage) => {
 
     console.log("Translate Internal method ");
 
@@ -163,7 +163,8 @@ let translate = (key, text, targetlanguage) => {
                     var json = {
                         'CustomMessage': "Translate is successful",
                         'IsSuccess': true,
-                        'Result': datay.data.translations["0"]
+                        'Result': datay.data.translations["0"],
+                        'DetectedSourceLanguage' : datay.data.translations["detectedSourceLanguage"]
                     };
                     resolve(JSON.stringify(json));
                 } else {
